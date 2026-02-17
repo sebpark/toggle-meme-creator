@@ -157,17 +157,40 @@ input:focus-visible {
 }
 
 .toggle {
-  min-width: 82px;
-  background: var(--off);
-  transition: transform 120ms ease, background 120ms ease;
+  width: 58px;
+  min-width: 58px;
+  height: 32px;
+  padding: 0;
+  border-radius: 999px;
+  background: #97a3b3;
+  position: relative;
+  transition: background 140ms ease;
+  align-self: flex-start;
+}
+
+.toggle::after {
+  content: "";
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #ffffff;
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  box-shadow: 0 1px 3px #0000002e;
+  transition: transform 140ms ease;
 }
 
 .toggle[aria-pressed="true"] {
-  background: var(--on);
+  background: #1f9d55;
+}
+
+.toggle[aria-pressed="true"]::after {
+  transform: translateX(26px);
 }
 
 .toggle:active {
-  transform: translateY(1px);
+  filter: brightness(0.98);
 }
 
 .warn {

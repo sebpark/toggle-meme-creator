@@ -215,7 +215,7 @@
       toggle.type = "button";
       toggle.className = "toggle";
       toggle.setAttribute("aria-pressed", String(row.isOn));
-      toggle.textContent = row.isOn ? "ON" : "OFF";
+      toggle.setAttribute("aria-label", `Toggle Row ${index + 1}`);
       toggle.addEventListener("click", () => toggleRow(row.id));
 
       li.appendChild(label);
