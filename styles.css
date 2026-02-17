@@ -244,14 +244,23 @@ body.shared-view .rows {
 }
 
 body.shared-view .row-toggle-only {
-  justify-content: center;
-  border: 0;
-  background: transparent;
-  padding: 0.35rem;
+  justify-content: space-between;
+  border: 1px solid var(--line);
+  background: #fdfefe;
+  padding: 0.55rem 0.7rem;
+  align-items: center;
 }
 
 body.shared-view .row-toggle-only .toggle {
-  align-self: center;
+  align-self: auto;
+}
+
+body.shared-view .shared-row-text {
+  color: var(--text);
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-right: 0.75rem;
+  overflow-wrap: anywhere;
 }
 
 @media (max-width: 640px) {
@@ -260,9 +269,8 @@ body.shared-view .row-toggle-only .toggle {
     align-items: stretch;
   }
 
-  .row {
-    flex-direction: column;
-    align-items: stretch;
+  .row input {
+    min-width: 0;
   }
 
   .share-actions {

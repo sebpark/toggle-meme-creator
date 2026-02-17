@@ -125,6 +125,12 @@
       }
 
       rows = decodedRows;
+      if (isSharedView) {
+        rows = rows.map((row) => ({
+          ...row,
+          isOn: false,
+        }));
+      }
       const switchedOffAny = enforceMaxOn();
       if (switchedOffAny) {
         setEventMessage(
@@ -224,7 +230,13 @@
       toggle.setAttribute("aria-label", `Toggle Row ${index + 1}`);
       toggle.addEventListener("click", () => toggleRow(row.id));
 
-      if (!isSharedView) {
+      if (isSharedView) {
+        const sharedText = document.createElement("span");
+        sharedText.className = "shared-row-text";
+        const displayText = row.text.trim();
+        sharedText.textContent = displayText.length > 0 ? displayText : `Row ${index + 1}`;
+        li.appendChild(sharedText);
+      } else {
         const label = document.createElement("label");
         label.setAttribute("for", `${row.id}-input`);
         label.textContent = `Row ${index + 1}`;
