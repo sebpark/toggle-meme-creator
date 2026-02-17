@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Toggle Limit Form</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="app">
+    <header class="app-header">
+      <h1>Toggle Limit Form</h1>
+      <p class="subtitle">
+        At least one toggle must stay OFF. If turning one ON would make all toggles ON,
+        one active toggle will switch OFF automatically.
+      </p>
+    </header>
+
+    <section class="controls" aria-label="Row controls">
+      <div class="button-group">
+        <button id="add-row-btn" type="button">+ Add Row</button>
+        <button id="remove-row-btn" type="button">- Remove Row</button>
+      </div>
+      <p id="status" class="status" aria-live="polite"></p>
+    </section>
+
+    <section class="share" aria-label="Share controls">
+      <p class="share-title">Share output</p>
+      <div class="share-actions">
+        <button id="generate-link-btn" type="button">Generate Share Link</button>
+        <button id="copy-link-btn" type="button">Copy Link</button>
+      </div>
+      <input id="share-link" type="text" readonly aria-label="Sharable link">
+      <p id="share-message" class="status" aria-live="polite"></p>
+    </section>
+
+    <section>
+      <ul id="rows" class="rows" aria-label="Toggle rows"></ul>
+      <p id="event-message" class="event-message" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <script src="./script.js"></script>
+</body>
+</html>
