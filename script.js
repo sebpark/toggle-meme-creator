@@ -1,6 +1,8 @@
 (() => {
   const MIN_ROWS = 3;
   const MAX_ROWS = 7;
+  const url = new URL(window.location.href);
+  const isSharedView = url.searchParams.has("state");
 
   const addBtn = document.getElementById("add-row-btn");
   const removeBtn = document.getElementById("remove-row-btn");
@@ -11,6 +13,8 @@
   const rowsContainer = document.getElementById("rows");
   const statusEl = document.getElementById("status");
   const eventMessageEl = document.getElementById("event-message");
+  const makeYourOwnEl = document.getElementById("make-your-own");
+  const makeYourOwnLinkEl = document.getElementById("make-your-own-link");
 
   let idCounter = 0;
   let rows = Array.from({ length: MIN_ROWS }, () => newRow());
@@ -44,6 +48,22 @@
   function setShareMessage(message, isWarning = false) {
     shareMessageEl.textContent = message;
     shareMessageEl.classList.toggle("warn", isWarning);
+  }
+
+  function builderUrl() {
+    const clean = new URL(window.location.href);
+    clean.searchParams.delete("state");
+    clean.hash = "";
+    return clean.toString();
+  }
+
+  function setupViewMode() {
+    if (!isSharedView) {
+      return;
+    }
+    document.body.classList.add("shared-view");
+    makeYourOwnLinkEl.href = builderUrl();
+    makeYourOwnEl.hidden = false;
   }
 
   function encodeState() {
@@ -92,7 +112,6 @@
   }
 
   function loadStateFromUrl() {
-    const url = new URL(window.location.href);
     const encoded = url.searchParams.get("state");
     if (!encoded) {
       return;
@@ -196,20 +215,7 @@
 
     rows.forEach((row, index) => {
       const li = document.createElement("li");
-      li.className = "row";
-
-      const label = document.createElement("label");
-      label.setAttribute("for", `${row.id}-input`);
-      label.textContent = `Row ${index + 1}`;
-
-      const input = document.createElement("input");
-      input.id = `${row.id}-input`;
-      input.type = "text";
-      input.placeholder = "Enter text";
-      input.value = row.text;
-      input.addEventListener("input", (event) => {
-        updateText(row.id, event.target.value);
-      });
+      li.className = isSharedView ? "row row-toggle-only" : "row";
 
       const toggle = document.createElement("button");
       toggle.type = "button";
@@ -218,8 +224,23 @@
       toggle.setAttribute("aria-label", `Toggle Row ${index + 1}`);
       toggle.addEventListener("click", () => toggleRow(row.id));
 
-      li.appendChild(label);
-      li.appendChild(input);
+      if (!isSharedView) {
+        const label = document.createElement("label");
+        label.setAttribute("for", `${row.id}-input`);
+        label.textContent = `Row ${index + 1}`;
+
+        const input = document.createElement("input");
+        input.id = `${row.id}-input`;
+        input.type = "text";
+        input.placeholder = "Enter text";
+        input.value = row.text;
+        input.addEventListener("input", (event) => {
+          updateText(row.id, event.target.value);
+        });
+
+        li.appendChild(label);
+        li.appendChild(input);
+      }
       li.appendChild(toggle);
       rowsContainer.appendChild(li);
     });
@@ -232,23 +253,26 @@
     updateShareLink();
   }
 
-  addBtn.addEventListener("click", addRow);
-  removeBtn.addEventListener("click", removeRow);
-  generateLinkBtn.addEventListener("click", () => {
-    updateShareLink();
-    setShareMessage("Share link updated.");
-  });
-  copyLinkBtn.addEventListener("click", async () => {
-    updateShareLink();
-    try {
-      await navigator.clipboard.writeText(shareLinkInput.value);
-      setShareMessage("Share link copied to clipboard.");
-    } catch (_error) {
-      shareLinkInput.select();
-      setShareMessage("Clipboard was blocked. Copy from the field manually.", true);
-    }
-  });
+  if (!isSharedView) {
+    addBtn.addEventListener("click", addRow);
+    removeBtn.addEventListener("click", removeRow);
+    generateLinkBtn.addEventListener("click", () => {
+      updateShareLink();
+      setShareMessage("Share link updated.");
+    });
+    copyLinkBtn.addEventListener("click", async () => {
+      updateShareLink();
+      try {
+        await navigator.clipboard.writeText(shareLinkInput.value);
+        setShareMessage("Share link copied to clipboard.");
+      } catch (_error) {
+        shareLinkInput.select();
+        setShareMessage("Clipboard was blocked. Copy from the field manually.", true);
+      }
+    });
+  }
 
+  setupViewMode();
   loadStateFromUrl();
   render();
 })();

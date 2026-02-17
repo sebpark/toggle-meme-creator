@@ -26,4 +26,5 @@ No build command or install step is required.
 ## Shareable Links
 - Use **Generate Share Link** or **Copy Link** in the app.
 - The link includes row text and toggle states in `?state=...`.
-- Opening that link restores the same output.
+- Opening that link restores the same output in a shared view that shows only toggles.
+- Shared view includes a **Make your own** link back to the full creator page.

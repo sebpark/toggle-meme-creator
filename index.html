@@ -8,7 +8,7 @@
 </head>
 <body>
   <main class="app">
-    <header class="app-header">
+    <header class="app-header" id="app-header">
       <h1>Toggle Limit Form</h1>
       <p class="subtitle">
         At least one toggle must stay OFF. If turning one ON would make all toggles ON,
@@ -16,7 +16,7 @@
       </p>
     </header>
 
-    <section class="controls" aria-label="Row controls">
+    <section class="controls" id="controls-section" aria-label="Row controls">
       <div class="button-group">
         <button id="add-row-btn" type="button">+ Add Row</button>
         <button id="remove-row-btn" type="button">- Remove Row</button>
@@ -24,7 +24,7 @@
       <p id="status" class="status" aria-live="polite"></p>
     </section>
 
-    <section class="share" aria-label="Share controls">
+    <section class="share" id="share-section" aria-label="Share controls">
       <p class="share-title">Share output</p>
       <div class="share-actions">
         <button id="generate-link-btn" type="button">Generate Share Link</button>
@@ -38,6 +38,10 @@
       <ul id="rows" class="rows" aria-label="Toggle rows"></ul>
       <p id="event-message" class="event-message" aria-live="polite"></p>
     </section>
+
+    <footer id="make-your-own" class="make-your-own" hidden>
+      <a id="make-your-own-link" href="./">Make your own</a>
+    </footer>
   </main>
 
   <script src="./script.js"></script>
